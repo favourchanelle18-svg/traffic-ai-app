@@ -3,170 +3,156 @@ import random
 import time
 
 # =========================
-# PAGE CONFIG
+# PAGE SETUP
 # =========================
 st.set_page_config(
-    page_title="Smart Traffic Control Center",
+    page_title="Live Smart Traffic Control Center",
     layout="wide"
 )
 
 # =========================
-# NAVY BLUE + MODERN FONT UI
+# PREMIUM UI DESIGN (NAVY + GLASS)
 # =========================
 st.markdown("""
 <style>
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap');
 
 .stApp {
-    background-color: #061a33;
-    color: white;
+    background-color: #050f1f;
     font-family: 'Inter', sans-serif;
+    color: white;
 }
 
 .title {
-    font-size: 46px;
-    font-weight: 800;
+    font-size: 48px;
+    font-weight: 900;
     text-align: center;
-    color: white;
 }
 
 .subtitle {
     text-align: center;
-    font-size: 18px;
-    color: #cbd5e1;
+    color: #a5b4fc;
     margin-bottom: 20px;
 }
 
 .card {
-    background: #0b2a4a;
-    padding: 20px;
-    border-radius: 18px;
-    box-shadow: 0px 6px 20px rgba(0,0,0,0.3);
-    color: white;
+    background: rgba(255,255,255,0.06);
+    padding: 18px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
 }
 
 .big {
     font-size: 34px;
-    font-weight: 700;
+    font-weight: 800;
 }
 
-.small {
-    color: #94a3b8;
+.car-bar {
+    height: 20px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #22c55e, #eab308, #ef4444);
 }
 
 </style>
 """, unsafe_allow_html=True)
 
 # =========================
-# HEADER (NO "UNIVERSITY LEVEL" TEXT)
+# HEADER
 # =========================
-st.markdown("<div class='title'>🚦 Smart Traffic Control Center</div>", unsafe_allow_html=True)
+st.markdown("<div class='title'>🚦 Live Smart Traffic Control Center</div>", unsafe_allow_html=True)
+st.markdown("<div class='subtitle'>Real-time AI traffic simulation for UAE smart cities</div>", unsafe_allow_html=True)
 
-st.markdown("<div class='subtitle'>AI-powered simulation of urban traffic flow and congestion prediction</div>", unsafe_allow_html=True)
-
-# UAE CITY IMAGE ONLY
-st.image("https://images.unsplash.com/photo-1526495124232-a04e1849168c")
+st.image("https://images.unsplash.com/photo-1518684079-3c830dcef090")
 
 # =========================
 # LOCATION INPUT
 # =========================
-location = st.text_input("📍 Enter a UAE road or city (e.g. Sheikh Zayed Road, Dubai)")
+location = st.text_input("📍 Enter UAE road or city (Dubai / Abu Dhabi / Sheikh Zayed Road)")
 
 # =========================
-# AI ENGINE (MORE REALISTIC)
+# AI TRAFFIC ENGINE (DYNAMIC)
 # =========================
-def traffic_ai(location):
-    seed = sum(ord(i) for i in location)
+def generate_traffic(location):
+    seed = sum(ord(c) for c in location) + int(time.time()) // 5
     random.seed(seed)
 
     congestion = random.randint(10, 95)
     speed = random.randint(20, 140)
 
-    density_factor = (len(location) % 7) + 2
+    cars_visual = congestion // 2  # visual simulation
 
-    time_clear = max(3, int((congestion * density_factor) / (speed / 18)))
+    time_clear = max(2, int((congestion * 1.5) / (speed / 20)))
 
-    return congestion, speed, time_clear
+    return congestion, speed, cars_visual, time_clear
+
+# =========================
+# LIVE SIMULATION AREA
+# =========================
+placeholder = st.empty()
 
 # =========================
 # RUN SYSTEM
 # =========================
 if location:
 
-    congestion, speed, time_clear = traffic_ai(location)
+    for i in range(5):  # live simulation loop
+        congestion, speed, cars, time_clear = generate_traffic(location)
 
-    st.markdown("---")
+        with placeholder.container():
 
-    # =========================
-    # DASHBOARD CARDS
-    # =========================
-    col1, col2, col3 = st.columns(3)
+            st.markdown("---")
 
-    with col1:
-        st.markdown("<div class='card'>🚗 Congestion</div>", unsafe_allow_html=True)
-        st.markdown(f"<div class='big'>{congestion}%</div>", unsafe_allow_html=True)
+            # =========================
+            # DASHBOARD
+            # =========================
+            col1, col2, col3 = st.columns(3)
 
-    with col2:
-        st.markdown("<div class='card'>🚙 Speed</div>", unsafe_allow_html=True)
-        st.markdown(f"<div class='big'>{speed} km/h</div>", unsafe_allow_html=True)
+            col1.markdown("<div class='card'>🚗 Congestion</div>", unsafe_allow_html=True)
+            col1.markdown(f"<div class='big'>{congestion}%</div>", unsafe_allow_html=True)
 
-    with col3:
-        st.markdown("<div class='card'>⏱️ Time to Clear</div>", unsafe_allow_html=True)
-        st.markdown(f"<div class='big'>{time_clear} min</div>", unsafe_allow_html=True)
+            col2.markdown("<div class='card'>🚙 Speed</div>", unsafe_allow_html=True)
+            col2.markdown(f"<div class='big'>{speed} km/h</div>", unsafe_allow_html=True)
 
-    st.markdown("---")
+            col3.markdown("<div class='card'>⏱️ Clear Time</div>", unsafe_allow_html=True)
+            col3.markdown(f"<div class='big'>{time_clear} min</div>", unsafe_allow_html=True)
 
-    # =========================
-    # UAE CITY VISUALS ONLY
-    # =========================
-    st.subheader("🌆 Live Traffic View (UAE)")
+            st.markdown("---")
 
-    st.image("https://images.unsplash.com/photo-1512453979798-5ea266f8880c")  # Dubai highway
-    st.image("https://images.unsplash.com/photo-1518684079-3c830dcef090")   # Abu Dhabi roads
+            # =========================
+            # “ANIMATED” TRAFFIC BARS
+            # =========================
+            st.subheader("🚦 Live Traffic Flow Simulation")
 
-    # =========================
-    # TRAFFIC STATUS
-    # =========================
-    if congestion > 70:
-        st.error("🔴 Heavy Traffic Detected")
-    elif congestion > 40:
-        st.warning("🟡 Moderate Traffic Flow")
-    else:
-        st.success("🟢 Smooth Traffic Conditions")
+            st.write("Cars on road (simulated movement intensity):")
 
-    # =========================
-    # AI INSIGHT PANEL
-    # =========================
-    st.subheader("🧠 AI Traffic Insight")
+            st.progress(cars / 50)
 
-    st.write(f"""
-Location analyzed: **{location}**
+            st.write("Traffic density visualization:")
+            st.markdown(f"<div class='car-bar' style='width:{congestion}%;'></div>", unsafe_allow_html=True)
 
-- Congestion level detected from simulated sensor network
-- Vehicle speed flow estimated using AI model
-- Predicted clearance time calculated dynamically
+            # =========================
+            # STATUS
+            # =========================
+            if congestion > 70:
+                st.error("🔴 Heavy Traffic — Slow movement detected")
+            elif congestion > 40:
+                st.warning("🟡 Moderate Traffic — Flow unstable")
+            else:
+                st.success("🟢 Smooth Traffic — High mobility")
 
-### Result:
-- Congestion: {congestion}%
-- Speed: {speed} km/h
-- Clear in: {time_clear} minutes
-""")
+            # =========================
+            # UAE VISUALS ONLY
+            # =========================
+            st.subheader("🌆 UAE Smart City Feed")
 
-    # =========================
-    # UAE SMART CITY SECTION
-    # =========================
-    st.subheader("🇦🇪 Smart City Infrastructure")
+            st.image("https://images.unsplash.com/photo-1526495124232-a04e1849168c")  # Dubai skyline
+            st.image("https://images.unsplash.com/photo-1508385082359-f38ae991e8f2")  # Abu Dhabi roads
 
-    st.image("https://images.unsplash.com/photo-1508385082359-f38ae991e8f2")
+            st.write(f"Live monitoring: {location}")
 
-    st.write("""
-Cities like Dubai and Abu Dhabi use intelligent traffic systems to:
-- Reduce congestion on highways
-- Optimize traffic light timing
-- Improve emergency response
-- Support rapid urban growth
-""")
+        time.sleep(1)
 
 else:
-    st.info("Enter a UAE location to generate smart traffic analysis")
+    st.info("Enter a UAE location to start live traffic simulation")
