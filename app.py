@@ -69,29 +69,29 @@ def get_city_image(loc):
     # HIGHWAYS (VERY BUSY)
     # =========================
     highways = [
-        "https://images.unsplash.com/photo-1502877338535-766e1452684a",
-        "https://images.unsplash.com/photo-1494515843206-f3117d3f511e",
-        "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df",
-        "https://images.unsplash.com/photo-1518609375289-7f6d2c3c5b7a"
+        "https://www.propertyfinder.ae/blog/wp-content/uploads/2024/02/3-50.jpg",
+        "https://www.worldatlas.com/r/w1200/upload/ed/d9/87/dubai-uae-best-roads.jpg",
+        "https://c8.alamy.com/comp/2TB9CN2/dubai-united-arab-emirates-june-21-2023-dubai-highways-with-cars-during-a-day-2TB9CN2.jpg",
+        "https://i.pinimg.com/originals/20/5b/8a/205b8a760a15d4701b4a3f0d56daabd8.jpg"
     ]
 
     # =========================
     # URBAN MAIN ROADS (MODERATE TRAFFIC)
     # =========================
     urban_roads = [
-        "https://images.unsplash.com/photo-1506521781263-d8422e82f27a",
-        "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b",
-        "https://images.unsplash.com/photo-1526401485004-2aa7f1f4a0a3",
-        "https://images.unsplash.com/photo-1501594907352-04cda38ebc29"
+        "https://c8.alamy.com/comp/ACJN6T/middle-east-uae-united-arab-emirates-dubai-urban-roads-ACJN6T.jpg",
+        "https://c8.alamy.com/comp/T8WN50/dubai-uae-november-29-2018-urban-roads-through-the-front-window-of-the-car-sheikh-zayed-rd-T8WN50.jpg",
+        "https://thumbs.dreamstime.com/b/aerial-view-road-intersection-big-city-timelapse-urban-landscape-dubai-marina-district-uae-cars-tram-384942950.jpg",
+        "https://www.constructionweekonline.com/cloud/2025/04/21/abu-dhabi-airport-road.jpg"
     ]
 
     # =========================
     # CITY STREETS (LIGHT TRAFFIC)
     # =========================
     city_streets = [
-        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000",
-        "https://images.unsplash.com/photo-1500043357865-c6b8827edf9f",
-        "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a"
+        "https://thumbs.dreamstime.com/b/dubai-uae-november-city-road-streets-dubai-united-arab-emirates-dubai-uae-november-city-road-streets-dubai-united-267173149.jpg",
+        "https://thumbs.dreamstime.com/z/streets-abu-dhabi-capital-city-united-arab-emirates-uae-march-march-uae-second-most-populous-39892205.jpg",
+        "https://thumbs.dreamstime.com/b/dubai-uae-november-city-road-streets-dubai-united-arab-emirates-sunset-dubai-uae-november-city-road-streets-dubai-248659600.jpg"
     ]
 
     import random
