@@ -52,43 +52,61 @@ st.markdown("""
 # HEADER
 # =========================
 st.markdown("<div class='title'>🚦 Smart Traffic Intelligence Dashboard</div>", unsafe_allow_html=True)
-st.markdown("<div class='subtitle'>AI-powered simulation of UAE road traffic systems</div>", unsafe_allow_html=True)
+st.markdown("<div class='subtitle'>AI-powered UAE road traffic simulation system</div>", unsafe_allow_html=True)
 
 # =========================
 # INPUT
 # =========================
-location = st.text_input("📍 Enter UAE road / city (Dubai, Abu Dhabi, Sharjah, etc.)")
+location = st.text_input("📍 Enter UAE road or street (e.g. Sheikh Zayed Road, Corniche, Airport Road)")
 
 # =========================
-# REALISTIC BUSY ROAD IMAGE SYSTEM
+# 🚦 ROAD-BASED IMAGE ENGINE (FIXED VERSION)
 # =========================
 def get_city_image(loc):
     loc = loc.lower()
 
-    dubai_images = [
-        "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb",
-        "https://images.unsplash.com/photo-1493238792000-8113da705763",
-        "https://images.unsplash.com/photo-1526498460520-4c246339dccb"
-    ]
-
-    abu_dhabi_images = [
-        "https://images.unsplash.com/photo-1526481280698-8fcc13fd85a3",
-        "https://images.unsplash.com/photo-1518684079-3c830dcef090",
-        "https://images.unsplash.com/photo-1501785888041-af3ef285b470"
-    ]
-
-    highway_images = [
-        "https://images.unsplash.com/photo-1494515843206-f3117d3f511e",
+    # =========================
+    # HIGHWAYS (VERY BUSY)
+    # =========================
+    highways = [
         "https://images.unsplash.com/photo-1502877338535-766e1452684a",
-        "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df"
+        "https://images.unsplash.com/photo-1494515843206-f3117d3f511e",
+        "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df",
+        "https://images.unsplash.com/photo-1518609375289-7f6d2c3c5b7a"
     ]
 
-    if "dubai" in loc:
-        return random.choice(dubai_images)
-    elif "abu dhabi" in loc:
-        return random.choice(abu_dhabi_images)
+    # =========================
+    # URBAN MAIN ROADS (MODERATE TRAFFIC)
+    # =========================
+    urban_roads = [
+        "https://images.unsplash.com/photo-1506521781263-d8422e82f27a",
+        "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b",
+        "https://images.unsplash.com/photo-1526401485004-2aa7f1f4a0a3",
+        "https://images.unsplash.com/photo-1501594907352-04cda38ebc29"
+    ]
+
+    # =========================
+    # CITY STREETS (LIGHT TRAFFIC)
+    # =========================
+    city_streets = [
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000",
+        "https://images.unsplash.com/photo-1500043357865-c6b8827edf9f",
+        "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a"
+    ]
+
+    import random
+
+    # =========================
+    # ROAD DETECTION LOGIC
+    # =========================
+    if any(word in loc for word in ["sheikh zayed", "highway", "expressway", "e11"]):
+        return random.choice(highways)
+
+    elif any(word in loc for word in ["airport road", "corniche", "downtown", "city center"]):
+        return random.choice(urban_roads)
+
     else:
-        return random.choice(highway_images)
+        return random.choice(city_streets)
 
 # =========================
 # AI TRAFFIC ENGINE (SIMULATED)
@@ -129,10 +147,9 @@ if location:
     st.markdown("---")
 
     # =========================
-    # CAMERA FEED (SIMULATED)
+    # CAMERA FEED
     # =========================
     st.subheader("📹 Live Traffic Camera Feed (Simulated)")
-
     st.image(get_city_image(location), use_container_width=True)
 
     # =========================
@@ -146,36 +163,34 @@ if location:
         st.success("🟢 Smooth Traffic Conditions")
 
     # =========================
-    # AI INSIGHT
+    # AI ANALYSIS
     # =========================
     st.subheader("🧠 AI Traffic Analysis")
 
     st.write(f"""
-📍 Location: **{location}**
+📍 **Location:** {location}
 
-- AI congestion model based on road density simulation  
-- Vehicle flow estimated using probabilistic engine  
-- Speed distribution analyzed dynamically  
-- Clearance time predicted in real-time simulation  
+- AI detects road type (highway / urban / street)
+- Traffic density simulated using probabilistic model
+- Speed flow adjusted dynamically
+- Estimated clearance time calculated
 
-### 🧾 Result:
-Traffic is expected to normalize in approximately **{time_clear} minutes**
+### 📊 Result:
+Traffic will normalize in approximately **{time_clear} minutes**
 """)
 
     # =========================
-    # SMART CITY CONTEXT
+    # CONTEXT
     # =========================
     st.subheader("🇦🇪 UAE Smart City Context")
 
     st.write("""
-UAE smart cities use advanced transport systems including:
-- AI traffic monitoring
-- Smart signal control
-- Highway congestion optimization
-- Real-time road analytics
-
-This simulation demonstrates how such systems behave at a conceptual level.
+UAE transport systems use smart infrastructure to:
+- Reduce congestion on highways
+- Optimize traffic light systems
+- Monitor road usage in real-time
+- Improve emergency response routes
 """)
 
 else:
-    st.info("Enter a UAE location to begin analysis 🚦")
+    st.info("Enter a UAE road or street to begin analysis 🚦")
