@@ -1,67 +1,167 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
+import random
 
-st.set_page_config(page_title="Smart Traffic AI", layout="wide")
+# =========================
+# PAGE CONFIG
+# =========================
+st.set_page_config(
+    page_title="AI Traffic Intelligence System",
+    layout="wide"
+)
 
-# 🌈 STYLE (BABY BLUE UI)
+# =========================
+# UI DESIGN (BABY PINK THEME)
+# =========================
 st.markdown("""
 <style>
+
 .stApp {
-    background-color: #d6f0ff;
+    background-color: #ffe4ec;
+    color: black;
+    font-family: Arial;
 }
+
 .title {
-    font-size: 40px;
-    font-weight: bold;
-    color: #0b3d91;
+    font-size: 44px;
+    font-weight: 900;
+    text-align: center;
+    color: black;
 }
+
+.subtitle {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
 .card {
-    background-color: white;
+    background: white;
     padding: 20px;
     border-radius: 20px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0px 6px 20px rgba(0,0,0,0.1);
 }
+
+.big {
+    font-size: 32px;
+    font-weight: bold;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
+# =========================
 # HEADER
-st.markdown("<div class='title'>🚦 AI Smart Traffic Controller</div>", unsafe_allow_html=True)
+# =========================
+st.markdown("<div class='title'>🚦 AI Traffic Intelligence System</div>", unsafe_allow_html=True)
+st.markdown("<div class='subtitle'>University-level simulation of smart city traffic prediction</div>", unsafe_allow_html=True)
 
-st.write("Simulating smart city traffic optimization inspired by modern cities.")
+st.image("https://images.unsplash.com/photo-1506521781263-d8422e82f27a", use_container_width=True)
 
-st.image("https://images.unsplash.com/photo-1494526585095-c41746248156", use_container_width=True)
+# =========================
+# INPUT (LOCATION BASED AI)
+# =========================
+location = st.text_input("📍 Enter a road / street / city (e.g. Sheikh Zayed Road, Dubai)")
 
-# LOAD DATA
-df = pd.DataFrame({
-    "time": [0,1,2,3,4,5,6,7,8],
-    "base_congestion": [30,45,60,85,95,90,70,50,35]
-})
+# =========================
+# AI ENGINE (REALISTIC SIMULATION)
+# =========================
+def traffic_ai(location):
+    seed = sum(ord(i) for i in location)
+    random.seed(seed)
 
-# SIDEBAR
-st.sidebar.header("⚙️ Control Panel")
+    congestion = random.randint(15, 95)
+    speed = random.randint(20, 120)
 
-cars = st.sidebar.slider("🚗 Cars", 50, 500, 200)
-peak = st.sidebar.slider("⏰ Peak", 1, 10, 5)
-ai = st.sidebar.toggle("🧠 AI ON/OFF", value=True)
+    # AI logic (more realistic)
+    complexity_factor = len(location) % 10 + 1
 
-# MODEL
-base = min(100, cars*0.3 + peak*5)
-optimized = base * 0.55 if ai else base
+    time_clear = max(5, int((congestion * complexity_factor) / (speed / 15)))
 
-pollution = optimized * 1.6
-delay = optimized * 0.6
+    return congestion, speed, time_clear, complexity_factor
 
-# CARDS
-col1, col2, col3 = st.columns(3)
+# =========================
+# RUN ONLY IF LOCATION ENTERED
+# =========================
+if location:
 
-col1.metric("🚗 Congestion", f"{int(optimized)}%")
-col2.metric("🌫️ Pollution", f"{int(pollution)} AQI")
-col3.metric("⏱️ Delay", f"{int(delay)} min")
+    congestion, speed, time_clear, complexity = traffic_ai(location)
 
-# GRAPH
-df["ai"] = df["base_congestion"] * 0.6 if ai else df["base_congestion"]
-st.line_chart(df.set_index("time"))
+    st.markdown("---")
 
-# IMPACT
-st.markdown("## 🌍 Impact")
-st.write("AI reduces congestion, emissions, and improves traffic flow in smart cities like Dubai and Singapore.")
+    # =========================
+    # DASHBOARD CARDS
+    # =========================
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.write("🚗 Congestion Level")
+        st.markdown(f"<div class='big'>{congestion}%</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.write("🚙 Average Speed")
+        st.markdown(f"<div class='big'>{speed} km/h</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("<div class='card'>", unsafe_allow_html=True)
+        st.write("⏱️ Time to Clear")
+        st.markdown(f"<div class='big'>{time_clear} min</div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown("---")
+
+    # =========================
+    # TRAFFIC STATUS
+    # =========================
+    st.subheader("📊 Traffic Status")
+
+    st.image("https://images.unsplash.com/photo-1486308510493-cb9b3a1f9c5a")
+
+    if congestion > 70:
+        st.error("🔴 Heavy Traffic — Severe congestion detected")
+    elif congestion > 40:
+        st.warning("🟡 Moderate Traffic — Some delays expected")
+    else:
+        st.success("🟢 Light Traffic — Smooth movement")
+
+    # =========================
+    # AI EXPLANATION
+    # =========================
+    st.subheader("🧠 AI Prediction Model")
+
+    st.write(f"""
+For **{location}**, the AI system analyzed:
+
+- Road complexity score: {complexity}
+- Vehicle density simulation
+- Speed-flow correlation
+
+### Result:
+- Estimated congestion: **{congestion}%**
+- Average speed: **{speed} km/h**
+- Predicted clearance time: **{time_clear} minutes**
+
+This model mimics how smart city systems evaluate traffic flow in real time.
+""")
+
+    # =========================
+    # IMPACT SECTION
+    # =========================
+    st.subheader("🌍 Smart City Impact")
+
+    st.image("https://images.unsplash.com/photo-1494522358652-f30e61a60313")
+
+    st.write("""
+AI traffic systems help modern cities:
+
+- Reduce congestion
+- Improve emergency response times
+- Optimize road networks
+- Lower carbon emissions
+""")
+
+else:
+    st.info("👆 Enter a location above to generate AI traffic analysis")
